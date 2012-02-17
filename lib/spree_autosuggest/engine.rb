@@ -4,6 +4,10 @@ module SpreeAutosuggest
 
     config.autoload_paths += %W(#{config.root}/lib)
 
+    initializer "spree.suggestion.preferences", :after => "spree.environment" do |app|
+      Spree::Suggestion::Config = Spree::SuggestionConfiguration.new
+    end
+
     # use rspec for tests
     config.generators do |g|
       g.test_framework :rspec
