@@ -16,7 +16,7 @@ $ ->
 
       foundInCache = false
       $.each cache, (key, data) ->
-        if term.indexOf(key) is 0 and data.length > 0 and data.length < maxFromDb
+        if term.indexOf(key) is 0 and data.length < maxFromDb
           response $.ui.autocomplete.filter(data, term).slice(0, maxToDisplay)
           foundInCache = true
           return
