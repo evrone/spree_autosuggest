@@ -3,10 +3,10 @@ Spree::BaseController.class_eval do
 
 
   def save_search
-    if @products and params[:keywords]
+    if @products.present? and params[:keywords]
       query = Spree::Suggestion.find_or_initialize_by_keywords(params[:keywords])
 
-      query.items_found = @products.count
+      query.items_found = @products.size
       query.increment(:count)
       query.save
     end
