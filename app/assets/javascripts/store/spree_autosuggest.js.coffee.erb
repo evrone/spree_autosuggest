@@ -10,7 +10,7 @@ $.ui.autocomplete::_renderItem = (ul, item) ->
 
 $ ->
   cache = {}
-  $("#"+suggestOn).autocomplete
+  $("input[name="+suggestOn+"]").autocomplete
     source: (request, response) ->
       term = request.term.toLowerCase()
 
