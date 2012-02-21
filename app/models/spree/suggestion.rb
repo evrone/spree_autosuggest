@@ -5,7 +5,7 @@ class Spree::Suggestion < ActiveRecord::Base
     config = Spree::Suggestion::Config
 
     select(:keywords).
-      where("keywords LIKE ? AND items_found != 0", term + '%').
+      where("keywords LIKE ? AND items_found != 0 AND count >= ?", term + '%', config.min_count).
       order("(#{config.count_weight}*count + #{config.items_found_weight}*items_found) DESC").
       limit(config.rows_from_db)
   end
