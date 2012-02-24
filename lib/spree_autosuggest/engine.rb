@@ -4,7 +4,7 @@ module SpreeAutosuggest
 
     config.autoload_paths += %W(#{config.root}/lib)
 
-    initializer "spree.suggestion.preferences", :after => "spree.environment" do |app|
+    initializer "spree.suggestion.preferences", :before => :load_config_initializers do |app|
       Spree::Suggestion::Config = Spree::SuggestionConfiguration.new
     end
 
