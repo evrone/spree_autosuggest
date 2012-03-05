@@ -39,21 +39,22 @@ filter_terms = (array, term) ->
 
 $ ->
   cache = {}
-  $("input[name="+suggestOn+"]").autocomplete
-    source: (request, response) ->
-      term = request.term.toLowerCase()
+  $("input[name="+suggestOn+"]:not(.ui-autocomplete-input)").live "focus", ->
+    $(this).autocomplete
+      source: (request, response) ->
+        term = request.term.toLowerCase()
 
-      foundInCache = false
-      $.each cache, (key, data) ->
-        if term.indexOf(key) is 0 and data.length < maxFromDb
-          response filter_terms(data, term).slice(0, maxToDisplay)
-          foundInCache = true
-          return
+        foundInCache = false
+        $.each cache, (key, data) ->
+          if term.indexOf(key) is 0 and data.length < maxFromDb
+            response filter_terms(data, term).slice(0, maxToDisplay)
+            foundInCache = true
+            return
 
-      return if foundInCache
+        return if foundInCache
 
-      $.getJSON "/suggestions", request, (data) ->
-        cache[term] = data
-        response data.slice(0, maxToDisplay)
+        $.getJSON "/suggestions", request, (data) ->
+          cache[term] = data
+          response data.slice(0, maxToDisplay)
 
-    minLength: 1
+      minLength: 1
