@@ -1,11 +1,14 @@
+module Spree::Autosuggest
+end
+
 module SpreeAutosuggest
   class Engine < Rails::Engine
     engine_name 'spree_autosuggest'
 
     config.autoload_paths += %W(#{config.root}/lib)
 
-    initializer "spree.suggestion.preferences", :before => :load_config_initializers do |app|
-      Spree::Suggestion::Config = Spree::SuggestionConfiguration.new
+    initializer "spree.suggestion.preferences", :after => "spree.environment" do |app|
+      Spree::Autosuggest::Config = Spree::SuggestionConfiguration.new
     end
 
     # use rspec for tests

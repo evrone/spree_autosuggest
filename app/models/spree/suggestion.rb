@@ -2,7 +2,7 @@ class Spree::Suggestion < ActiveRecord::Base
   validates :keywords, :presence => true
 
   def self.relevant(term)
-    config = Spree::Suggestion::Config
+    config = Spree::Autosuggest::Config
 
     select(:keywords).
       where("count >= ?", config.min_count).
