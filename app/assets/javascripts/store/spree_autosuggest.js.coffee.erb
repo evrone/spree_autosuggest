@@ -1,8 +1,8 @@
 //= require store/spree_core
 
-maxFromDb = <%= Spree::Suggestion::Config.rows_from_db %>
-maxToDisplay = <%= Spree::Suggestion::Config.rows_to_display %>
-suggestOn = '<%= Spree::Suggestion::Config.field %>'
+maxFromDb = <%= Spree::Autosuggest::Config.rows_from_db %>
+maxToDisplay = <%= Spree::Autosuggest::Config.rows_to_display %>
+suggestOn = '<%= Spree::Autosuggest::Config.field %>'
 
 $.ui.autocomplete::_renderItem = (ul, item) ->
   item.label = item.label.replace(new RegExp("^(" + $.ui.autocomplete.escapeRegex(@term) + ")", "gi"), "<strong>$1</strong>")
