@@ -1,60 +1,74 @@
 //= require store/spree_core
 
-maxFromDb = <%= Spree::Autosuggest::Config.rows_from_db %>
-maxToDisplay = <%= Spree::Autosuggest::Config.rows_to_display %>
-suggestOn = '<%= Spree::Autosuggest::Config.field %>'
+class Autosuggest
+  constructor: (selector, options = {}) ->
+    @search_field = $(selector)
+    return if @search_field.length == 0
 
-$.ui.autocomplete::_renderItem = (ul, item) ->
-  item.label = item.label.replace(new RegExp("^(" + $.ui.autocomplete.escapeRegex(@term) + ")", "gi"), "<strong>$1</strong>")
-  $("<li></li>").data("item.autocomplete", item).append("<a>" + item.label + "</a>").appendTo ul
+    @max_from_db = options.max_from_db
+    @max_to_display = options.max_to_display
+    @cache = {}
 
+    $.extend true, $.ui.autocomplete::, @extension_methods()
 
-keyswitch = (str) ->
-  ru = "йцукенгшщзхъфывапролджэячсмитьбюёЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮЁ"
-  en = "qwertyuiop[]asdfghjkl;'zxcvbnm,.`QWERTYUIOP{}ASDFGHJKL:\"ZXCVBNM<>~"
+    @search_field.autocomplete
+      minLength: 1,
+      source: (request, response) =>
+        response @finder(request)
 
-  if ru.indexOf(str.match("[^Wd_]")) is -1
-    from = en
-    to = ru
-  else
-    from = ru
-    to = en
+  finder: (request) ->
+    term = request.term.toLowerCase()
+    result = @from_cache(term)
+    unless result
+      $.getJSON "/suggestions", request, (data) =>
+        @cache[term] = data
+        result = data.slice(0, @max_to_display)
+    result
 
-  switched = ""
-  for char in str
-    fromIndex = from.indexOf(char)
-    if fromIndex < 0
-      switched += char
+  from_cache: (term) ->
+    result = false
+    $.each @cache, (key, data) =>
+      if term.indexOf(key) is 0 and data.length < @max_from_db
+        result = @filter_terms(data, term).slice(0, @max_to_display)
+    result
+
+  filter_terms: (array, term) ->
+      matcher = new RegExp($.ui.autocomplete.escapeRegex(term), "i")
+      $.grep array, (value) =>
+        source = value.label or value.value or value
+        matcher.test(source) || switched = matcher.test(@keyswitch(source))
+
+  extension_methods: ->
+    _renderItem: (ul, item) ->
+        item.label = item.label.replace(new RegExp("^(" + $.ui.autocomplete.escapeRegex(@term) + ")", "gi"), "<strong>$1</strong>")
+        $("<li></li>").data("item.autocomplete", item).append("<a>" + item.label + "</a>").appendTo ul
+
+  keyswitch: (str) ->
+    ru = "йцукенгшщзхъфывапролджэячсмитьбюёЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮЁ"
+    en = "qwertyuiop[]asdfghjkl;'zxcvbnm,.`QWERTYUIOP{}ASDFGHJKL:\"ZXCVBNM<>~"
+
+    if ru.indexOf(str.match("[^Wd_]")) is -1
+      from = en
+      to = ru
     else
-      switched += to[fromIndex]
+      from = ru
+      to = en
 
-  switched
+    switched = ""
+    for char in str
+      fromIndex = from.indexOf(char)
+      if fromIndex < 0
+        switched += char
+      else
+        switched += to[fromIndex]
 
+    switched
 
-filter_terms = (array, term) ->
-  matcher = new RegExp($.ui.autocomplete.escapeRegex(term), "i")
-  $.grep array, (value) ->
-    source = value.label or value.value or value
-    matcher.test(source) || switched = matcher.test(keyswitch(source))
 
 $ ->
-  cache = {}
-  $("input[name="+suggestOn+"]:not(.ui-autocomplete-input)").live "focus", ->
-    $(this).autocomplete
-      source: (request, response) ->
-        term = request.term.toLowerCase()
-
-        foundInCache = false
-        $.each cache, (key, data) ->
-          if term.indexOf(key) is 0 and data.length < maxFromDb
-            response filter_terms(data, term).slice(0, maxToDisplay)
-            foundInCache = true
-            return
-
-        return if foundInCache
-
-        $.getJSON "/suggestions", request, (data) ->
-          cache[term] = data
-          response data.slice(0, maxToDisplay)
-
-      minLength: 1
+  suggestOn = '<%= Spree::Autosuggest::Config.field %>'
+  $("input[name=#{suggestOn}]:not(.ui-autocomplete-input)").live "focus", ->
+    new Autosuggest($(this),
+      max_from_db: <%= Spree::Autosuggest::Config.rows_from_db %>
+      max_to_display: <%= Spree::Autosuggest::Config.rows_to_display %>
+    )
