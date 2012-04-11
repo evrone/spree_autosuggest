@@ -11,10 +11,20 @@ class Autosuggest
 
     $.extend true, $.ui.autocomplete::, @extension_methods()
 
-    @search_field.autocomplete
+    @search_field.autocomplete(
       minLength: 1,
       source: (request, response) =>
-        response @finder(request)
+        response @finder(request))
+      .bind "keydown.autocomplete", (event) =>
+        @fire_keybinds(event)
+
+  fire_keybinds: (event) ->
+    if event.keyCode == $.ui.keyCode.RIGHT
+      elem = $(@search_field.data('autocomplete').menu.active).find('a')
+      if elem.length > 0
+        elem.trigger('click')
+      else
+        $('li.ui-menu-item:first a').trigger('mouseenter').trigger('click')
 
   finder: (request) ->
     term = request.term.toLowerCase()
