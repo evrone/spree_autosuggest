@@ -13,9 +13,9 @@ class Autosuggest
 
     @search_field.autocomplete(
       minLength: 1,
-      delay: 1,
+      delay: 100,
       source: (request, response) =>
-        response @finder(request))
+        @finder(request, response))
       .bind "keydown.autocomplete", (event) =>
         @fire_keybinds(event)
 
@@ -27,20 +27,20 @@ class Autosuggest
       else
         $('li.ui-menu-item:first a').trigger('mouseenter').trigger('click')
 
-  finder: (request) ->
+  finder: (request, response) ->
     term = request.term.toLowerCase()
     cached = @from_cache(term)
-    return cached if cached
+    return response cached if cached
     $.ajax
       type: 'GET'
       url: "/suggestions"
       dataType: 'JSON'
       data: request
-      async: false
+      async: true
       context: this
       success: (data) ->
         @cache[term] = data
-    @from_cache(term)
+        response @from_cache(term)
 
   from_cache: (term) ->
     result = false
