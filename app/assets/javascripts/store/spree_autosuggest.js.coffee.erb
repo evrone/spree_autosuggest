@@ -13,7 +13,7 @@ class Autosuggest
 
     @search_field.autocomplete(
       minLength: 1,
-      delay: 0,
+      delay: 1,
       source: (request, response) =>
         response @finder(request))
       .bind "keydown.autocomplete", (event) =>
@@ -29,16 +29,17 @@ class Autosuggest
 
   finder: (request) ->
     term = request.term.toLowerCase()
-    unless @from_cache(term)
-      $.ajax
-        type: 'GET'
-        url: "/suggestions"
-        dataType: 'JSON'
-        data: request
-        async: false
-        context: this
-        success: (data) ->
-          @cache[term] = data
+    cached = @from_cache(term)
+    return cached if cached
+    $.ajax
+      type: 'GET'
+      url: "/suggestions"
+      dataType: 'JSON'
+      data: request
+      async: false
+      context: this
+      success: (data) ->
+        @cache[term] = data
     @from_cache(term)
 
   from_cache: (term) ->
