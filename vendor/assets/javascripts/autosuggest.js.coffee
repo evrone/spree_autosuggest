@@ -54,7 +54,7 @@ class @Autosuggest
 
   extension_methods: ->
     _renderItem: (ul, item) ->
-        item.label = item.label.replace(new RegExp("^(" + $.ui.autocomplete.escapeRegex(@term) + ")", "gi"), "<strong>$1</strong>")
+        item.label = item.label.replace(new RegExp("(" + $.ui.autocomplete.escapeRegex(@term) + ")", "gi"), "<strong>$1</strong>")
         $("<li></li>").data("item.autocomplete", item).append("<a>" + item.label + "</a>").appendTo ul
 
   keyswitch: (str) ->
