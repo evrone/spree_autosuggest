@@ -6,7 +6,6 @@ class @Autosuggest
     @settings =
       from_db: 15
       to_display: 5
-      keyswitch: true
     @settings = $.extend @settings, options
 
     @cache = {}
@@ -49,31 +48,8 @@ class @Autosuggest
         source = value.label or value.value or value
 
         return true if matcher.test(source)
-        if @settings.keyswitch
-          matcher.test(@keyswitch(source))
 
   extension_methods: ->
     _renderItem: (ul, item) ->
         item.label = item.label.replace(new RegExp("(" + $.ui.autocomplete.escapeRegex(@term) + ")", "gi"), "<strong>$1</strong>")
         $("<li></li>").data("item.autocomplete", item).append("<a>" + item.label + "</a>").appendTo ul
-
-  keyswitch: (str) ->
-    ru = "йцукенгшщзхъфывапролджэячсмитьбюёЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮЁ"
-    en = "qwertyuiop[]asdfghjkl;'zxcvbnm,.`QWERTYUIOP{}ASDFGHJKL:\"ZXCVBNM<>~"
-
-    if ru.indexOf(str.match("[^Wd_]")) is -1
-      from = en
-      to = ru
-    else
-      from = ru
-      to = en
-
-    switched = ""
-    for char in str
-      fromIndex = from.indexOf(char)
-      if fromIndex < 0
-        switched += char
-      else
-        switched += to[fromIndex]
-
-    switched
