@@ -4,8 +4,8 @@ class @Autosuggest
     return if @search_field.length == 0
 
     @settings =
-      from_db: 15
       to_display: 5
+      strict_cache: false
     @settings = $.extend @settings, options
 
     @cache = {}
@@ -38,7 +38,7 @@ class @Autosuggest
   from_cache: (term) ->
     result = false
     $.each @cache, (key, data) =>
-      if term.indexOf(key) is 0 and data.length < @settings.from_db
+      if (if @settings.strict_cache then term is key else term.indexOf(key) is 0)
         result = @filter_terms(data, term).slice(0, @settings.to_display)
     result
 
