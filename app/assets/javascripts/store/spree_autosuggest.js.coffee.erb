@@ -6,8 +6,8 @@ $ ->
 
   $("input[name=#{suggestOn}]:not(.ui-autocomplete-input)").live "focus", ->
     new Autosuggest(this,
-      from_db: <%= Spree::Autosuggest::Config.rows_from_db %>
       to_display: <%= Spree::Autosuggest::Config.rows_to_display %>
       delay: 100
+      strict_cache: <%= Spree::Autosuggest::Config[:search_backend].to_json %>
       minLength: 1)
 

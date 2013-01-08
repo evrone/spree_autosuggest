@@ -5,4 +5,5 @@ class Spree::SuggestionConfiguration < Spree::Preferences::Configuration
   preference :items_found_weight, :integer, :default => 1
   preference :min_count,          :integer, :default => 5
   preference :field,              :string,  :default => 'keywords'
+  preference :search_backend,     :boolean, :default => false
 end
