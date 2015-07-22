@@ -3,7 +3,7 @@ Spree::BaseController.class_eval do
 
 
   def save_search
-    keywords = @searcher.try :keywords
+    keywords = @searcher.try!(:keywords)
 
     if @products.present? and keywords.present?
       query = Spree::Suggestion.find_or_initialize_by_keywords(keywords)
