@@ -2,6 +2,8 @@
 
 This extension adds suggestions for product search.
 
+![](screenshot.jpg)
+
 ## Installation
 
 1. Add the Spree Autosuggest gem to your `Gemfile`:

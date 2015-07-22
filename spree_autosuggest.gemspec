@@ -10,6 +10,7 @@ Gem::Specification.new do |s|
   s.author            = 'Demidov Aleksey, Alexander Balashov'
 
   s.files         = `git ls-files`.split("\n")
+  s.files         -= ['screenshot.png']
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.require_path = 'lib'
   s.requirements << 'none'
