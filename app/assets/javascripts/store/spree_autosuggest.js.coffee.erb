@@ -4,7 +4,7 @@
 $ ->
   suggestOn = '<%= Spree::Autosuggest::Config.field %>'
 
-  $("input[name=#{suggestOn}]:not(.ui-autocomplete-input)").live "focus", ->
+  $("input[name=#{suggestOn}]:not(.ui-autocomplete-input)").on "focus", ->
     new Autosuggest(this,
       from_db: <%= Spree::Autosuggest::Config.rows_from_db %>
       to_display: <%= Spree::Autosuggest::Config.rows_to_display %>
