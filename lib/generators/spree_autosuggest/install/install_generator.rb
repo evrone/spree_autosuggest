@@ -3,7 +3,7 @@ module SpreeAutosuggest
     class InstallGenerator < Rails::Generators::Base
 
       def add_javascripts
-        append_file "app/assets/javascripts/store/all.js", "//= require store/spree_autosuggest\n"
+        append_file "app/assets/javascripts/spree/frontend.js", "//= require store/spree_autosuggest\n"
       end
 
       def add_migrations
