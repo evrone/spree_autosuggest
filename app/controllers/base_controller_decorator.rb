@@ -6,7 +6,7 @@ Spree::BaseController.class_eval do
     keywords = @searcher.try!(:keywords)
 
     if @products.present? and keywords.present?
-      query = Spree::Suggestion.find_or_initialize_by_keywords(keywords)
+      query = Spree::Suggestion.find_or_initialize_by(keywords: keywords)
 
       query.items_found = @products.size
       query.increment(:count)
