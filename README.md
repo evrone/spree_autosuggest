@@ -2,7 +2,7 @@
 
 This extension adds suggestions for product search.
 
-![](screenshot.jpg)
+![](screenshot.png)
 
 ## Installation
 
