@@ -2,12 +2,12 @@
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.name        = 'spree_autosuggest'
-  s.version     = '1.0.0'
+  s.version     = '2.0.0'
   s.summary     = 'Search suggestions for Spree'
   s.description = 'Search suggestions for Spree'
   s.required_ruby_version = '>= 1.8.7'
 
-  s.author            = 'Demidov Aleksey'
+  s.author            = 'Demidov Aleksey, Alexander Balashov'
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
