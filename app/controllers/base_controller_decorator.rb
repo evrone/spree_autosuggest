@@ -1,7 +1,6 @@
 Spree::BaseController.class_eval do
   after_filter :save_search
 
-
   def save_search
     keywords = @searcher.try!(:keywords)
 
