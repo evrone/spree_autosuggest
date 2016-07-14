@@ -7,7 +7,7 @@ module SpreeAutosuggest
 
     config.autoload_paths += %W(#{config.root}/lib)
 
-    initializer "spree.suggestion.preferences", :after => "spree.environment" do |app|
+    initializer 'spree.suggestion.preferences', after: 'spree.environment' do |app|
       Spree::Autosuggest::Config = Spree::SuggestionConfiguration.new
     end
 
@@ -17,7 +17,7 @@ module SpreeAutosuggest
     end
 
     def self.activate
-      Dir.glob(File.join(File.dirname(__FILE__), "../../app/**/*_decorator*.rb")) do |c|
+      Dir.glob(File.join(File.dirname(__FILE__), '../../app/**/*_decorator*.rb')) do |c|
         Rails.configuration.cache_classes ? require(c) : load(c)
       end
     end
