@@ -14,14 +14,6 @@ This extension adds suggestions for product search.
 
 
 ## Getting Started
-### Prerequisites
-
-What things you need to install the software and how to install them
-
-```
-Give examples
-```
-
 ### Installation
 
 1. Add the Spree Autosuggest gem to your `Gemfile`:
