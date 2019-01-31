@@ -16,7 +16,7 @@ This extension adds suggestions for product search.
 ## Getting Started
 ### Installation
 
-1. Add the Spree Autosuggest gem to your `Gemfile`:
+Add the Spree Autosuggest gem to your `Gemfile`:
   ```ruby
   gem 'spree_autosuggest'
   ```
@@ -29,7 +29,7 @@ This extension adds suggestions for product search.
   ```
   
   
-3. In order to add all Taxon & Product names to the autosuggest database run:
+In order to add all Taxon & Product names to the autosuggest database run:
   ```sh
   rake spree_autosuggest:seed
   ```
