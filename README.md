@@ -1,29 +1,57 @@
+# PLEASE NOTE, THIS PROJECT IS NO LONGER BEING MAINTAINED
 # Spree Autosuggest
 
 This extension adds suggestions for product search.
 
+<a href="https://evrone.com/?utm_source=github.com">
+  <img src="https://evrone.com/logo/evrone-sponsored-logo.png"
+       alt="Sponsored by Evrone" width="231">
+</a>
+
+## Demo
+
 ![](screenshot.png)
 
-## Installation
+
+## Getting Started
+### Prerequisites
+
+What things you need to install the software and how to install them
+
+```
+Give examples
+```
+
+### Installation
 
 1. Add the Spree Autosuggest gem to your `Gemfile`:
   ```ruby
   gem 'spree_autosuggest'
   ```
 
-2. Run:
+### Usage
+
   ```sh
   $ bundle install
   $ rails g spree_autosuggest:install
   ```
-
+  
+  
 3. In order to add all Taxon & Product names to the autosuggest database run:
   ```sh
   rake spree_autosuggest:seed
   ```
+## Contributing
 
-Copyright (c) 2012-2015 [ademidov][1], [divineforest][2] and other [contributors][3], released under the [New BSD License].
+Please read [Code of Conduct](CODE-OF-CONDUCT.md) and [Contributing Guidelines](CONTRIBUTING.md) for submitting pull requests to us. 
 
-[1]: https://github.com/ademidov
-[2]: https://github.com/divineforest
-[3]: https://github.com/evrone/spree_autosuggest/graphs/contributors
+## Authors
+
+* [Aleksey Demidov](https://github.com/ademidov) 
+* [Alexander Balashov](https://github.com/divineforest) 
+
+See also the list of [contributors](https://github.com/evrone/spree_autosuggest/graphs/contributors) who participated in this project.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
